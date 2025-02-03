@@ -169,6 +169,8 @@ public unsafe partial struct PlayerState {
 
     #endregion
 
+    [FieldOffset(0x748)] public float MountedBaseMovementSpeedOverride;
+
     /// <remarks> For easier access, use <see cref="GetContentValue"/>. </remarks>
     [FieldOffset(0x74C), FixedSizeArray] internal FixedSizeArray3<StdPair<uint, uint>> _contentKeyValueData;
 
