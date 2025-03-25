@@ -54,8 +54,8 @@ public unsafe partial struct ActionManager {
     [FieldOffset(0x104)] public float BallistaRadius;
     [FieldOffset(0x108)] public uint BallistaEntityId;
 
-    [FieldOffset(0x110)] public ushort LastUsedActionSequence;
-    [FieldOffset(0x112)] public ushort LastHandledActionSequence;
+    [FieldOffset(0x120)] public ushort LastUsedActionSequence;
+    [FieldOffset(0x122)] public ushort LastHandledActionSequence;
     [FieldOffset(0x114), FixedSizeArray] internal FixedSizeArray24<uint> _blueMageActions;
     [FieldOffset(0x174), FixedSizeArray] internal FixedSizeArray80<RecastDetail> _cooldowns;
 
