@@ -39,6 +39,7 @@ public unsafe partial struct RaptureLogModule {
     [FieldOffset(0x33F2)] public bool UseServerTime;
     /// <remarks> Controlled by config option <c>LogTimeDispType</c>. </remarks>
     [FieldOffset(0x33F3)] public bool Use12HourClock;
+    [FieldOffset(0x33F4)] public byte LogNameType;
 
     [FieldOffset(0x3478)] public LogMessageSource* MsgSourceArray;
     [FieldOffset(0x3480)] public int MsgSourceArrayLength;
@@ -65,7 +66,7 @@ public unsafe partial struct RaptureLogModule {
     public partial void ShowLogMessageString(uint logMessageId, Utf8String* value);
 
     [MemberFunction("E8 ?? ?? ?? ?? 40 80 C6 41"), GenerateStringOverloads]
-    public partial void PrintString(byte* str);
+    public partial void PrintString(CStringPointer str);
 
     [MemberFunction("E8 ?? ?? ?? ?? 84 C0 0F 84 ?? ?? ?? ?? 48 8D 96 ?? ?? ?? ?? 48 8D 4C 24")]
     public partial bool GetLogMessage(int index, Utf8String* str);
@@ -142,7 +143,7 @@ public unsafe partial struct RaptureLogModule {
     public unsafe partial struct AddonMessageSub {
         [FieldOffset(0x00)] public ulong AccountId;
         [FieldOffset(0x08)] public ulong ContentId;
-        [FieldOffset(0x10)] public byte* Name;
+        [FieldOffset(0x10)] public CStringPointer Name;
         [FieldOffset(0x18)] public Utf8String* MessageText;
         [FieldOffset(0x20)] public uint EntityId;
         [FieldOffset(0x24)] public ushort ChatType;

@@ -1,5 +1,6 @@
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using FFXIVClientStructs.FFXIV.Client.System.String;
+using FFXIVClientStructs.FFXIV.Common.Lua;
 
 namespace FFXIVClientStructs.FFXIV.Client.Game.Event;
 
@@ -13,34 +14,36 @@ public unsafe partial struct EventHandler {
     [FieldOffset(0x20)] public EventHandlerInfo Info;
     [FieldOffset(0x5C)] public uint IconId;
 
+    [FieldOffset(0x94)] public LuaStatus LuaStatus;
+
     [FieldOffset(0xC8)] public Utf8String UnkString0;
     [FieldOffset(0x168)] public Utf8String UnkString1;
 
     [VirtualFunction(154)]
     public partial void CancelInteraction();
 
-    [VirtualFunction(197)]
+    [VirtualFunction(199)]
     public partial void GetTitle(Utf8String* outTitle);
 
-    [VirtualFunction(249)]
+    [VirtualFunction(252)]
     public partial void GetDescription(Utf8String* outDescription);
 
-    [VirtualFunction(250)]
+    [VirtualFunction(253)]
     public partial void GetReliefText(Utf8String* outReliefText);
 
-    [VirtualFunction(251)]
+    [VirtualFunction(254)]
     public partial int GetTimeRemaining(int currentTimestamp);
 
-    [VirtualFunction(252)]
+    [VirtualFunction(255)]
     public partial bool HasTimer();
 
-    [VirtualFunction(254)]
+    [VirtualFunction(257)]
     public partial uint GetEventItemId();
 
-    [VirtualFunction(256)]
+    [VirtualFunction(260)]
     public partial StdVector<EventHandlerObjective>* GetObjectives();
 
-    [VirtualFunction(259)]
+    [VirtualFunction(264)]
     public partial int GetRecommendedLevel();
 }
 
@@ -66,13 +69,12 @@ public struct EventHandlerObjective {
 public struct EventId {
     [FieldOffset(0x00), CExportIgnore] public uint Id;
     [FieldOffset(0x00)] public ushort EntryId;
-    [FieldOffset(0x02)] public EventHandlerType ContentId;
+    [FieldOffset(0x02)] public EventHandlerContent ContentId;
     public static implicit operator uint(EventId id) => id.Id;
     public static implicit operator EventId(uint id) => new() { Id = id };
 }
 
-// TODO adjust for name change EventId.Type -> EventId.ContentId?
-public enum EventHandlerType : ushort {
+public enum EventHandlerContent : ushort {
     Quest = 0x0001,
     Warp = 0x0002,
     GatheringPoint = 0x0003,
@@ -125,7 +127,10 @@ public enum EventHandlerType : ushort {
     DisposalShop = 0x0035,
     PreHandler = 0x0036, // checks quest completion before handling something, for example opening the Scrip Exchange
     TripleTriadCompetition = 0x0037,
-    Salvage = 0x0039, // Desynthesis (0x390000), Materia Extraction (0x390001), Aetherial Reduction (0x390002)
+    HwdDev = 0x0038, // Ishgardian Restoration (Firmament / Heavensward Development?!)
+    Materialize = 0x0039, // Desynthesis (0x390000), Materia Extraction (0x390001), Aetherial Reduction (0x390002)
+    [Obsolete("Use Materialize", true)]
+    Salvage = 0x0039,
     InclusionShop = 0x003A,
     CollectablesShop = 0x003B,
     EventPathMove = 0x003D, // Argos in Mare Lamentorum uses this
@@ -142,4 +147,10 @@ public enum EventHandlerType : ushort {
     SkyIslandDirector = 0x800C, // used in early phases of the Diadem
     DpsChallengeDirector = 0x800D,
     FateDirector = 0x801A
+}
+
+public enum MaterializeEntryId : ushort {
+    Desynth = 0x0000,
+    Retrieve = 0x0001, // Materia Retrieval
+    Purify = 0x0002, // Aetherial Reduction
 }

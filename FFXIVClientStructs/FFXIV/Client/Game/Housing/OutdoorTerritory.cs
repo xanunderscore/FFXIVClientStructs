@@ -1,14 +1,15 @@
+// ReSharper disable once CheckNamespace
 namespace FFXIVClientStructs.FFXIV.Client.Game;
 
 // Client::Game::OutdoorTerritory
 //   Client::Game::HousingTerritory
 [GenerateInterop]
 [Inherits<HousingTerritory>]
-[StructLayout(LayoutKind.Explicit, Size = 0xAE60)]
+[StructLayout(LayoutKind.Explicit, Size = 0xAE70)]
 public unsafe partial struct OutdoorTerritory {
     [FieldOffset(0x10), FixedSizeArray] internal FixedSizeArray732<HousingFurniture> _furniture;
     [FieldOffset(0x8968)] public HousingObjectManager HousingObjectManager;
-    [FieldOffset(0x96A0)] public long HouseId; // Combines Ward, Plot, and Room
+    [FieldOffset(0x96A0)] public HouseId HouseId;
     [FieldOffset(0x96A8)] public sbyte StandingInPlot;
     [FieldOffset(0x96AA)] public sbyte EditingFixturesOfPlot;
     [FieldOffset(0x96B0)] public sbyte EditingFurnishingsOfPlot;

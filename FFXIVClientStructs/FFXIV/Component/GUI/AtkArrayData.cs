@@ -6,8 +6,9 @@ public unsafe partial struct AtkArrayData {
     [FieldOffset(0x8)] public int Size;
     [FieldOffset(0xC), FixedSizeArray] internal FixedSizeArray16<byte> _subscribedAddons;
     [FieldOffset(0x1C)] public byte Unk1C;
-    [FieldOffset(0x1D)] public byte SubscribedAddonsCount;
-    [FieldOffset(0x1E)] public byte Unk1E;
+    [FieldOffset(0x1D)] public byte Unk1D;
+    [FieldOffset(0x1E), Obsolete("Offset of SubscribedAddonsCount was fixed", true)] public byte Unk1E;
+    [FieldOffset(0x1E)] public byte SubscribedAddonsCount;
     /// <remarks>
     /// 0 = No update pending<br/>
     /// 1 = Update subscribed addons (specific flags are checked in AtkUnitManager.UpdateAddonByID)<br/>
@@ -122,7 +123,7 @@ public enum NumberArrayType {
     GoldSaucerArcadeMachine = 103, // PunchingMachine, BasketBall, Hammer, MogCatcher, MinerBotanistAim
     PvPProfile = 104,
     Orchestrion = 105,
-
+    OrchestrionPlayListSelect = 106,
     RetainerTask = 107,
     YKWNote = 108,
     DeepDungeonNaviMap = 109,
@@ -266,6 +267,7 @@ public enum StringArrayType {
 
     PvPProfile = 93,
     Orchestrion = 94,
+    OrchestrionPlayListSelect = 95,
 
     RetainerTask = 97,
     YKWNote = 98,

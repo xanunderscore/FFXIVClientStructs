@@ -1,6 +1,5 @@
 using FFXIVClientStructs.FFXIV.Client.System.String;
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace FFXIVClientStructs.FFXIV.Client.UI.Agent;
 
@@ -46,7 +45,7 @@ public unsafe partial struct AgentBannerInterface {
 
         [FieldOffset(0x20), FixedSizeArray] internal FixedSizeArray8<CharacterData> _characters;
 
-        [FieldOffset(0x3B20), Obsolete("Do not use maps to numbers inside of Characters array")] public long Unk3;
-        [FieldOffset(0x3B28), Obsolete("Do not use maps to numbers inside of Characters array")] public long Unk4;
+        [FieldOffset(0x3B20), Obsolete("Do not use maps to numbers inside of Characters array", true)] public long Unk3;
+        [FieldOffset(0x3B28), Obsolete("Do not use maps to numbers inside of Characters array", true)] public long Unk4;
     }
 }

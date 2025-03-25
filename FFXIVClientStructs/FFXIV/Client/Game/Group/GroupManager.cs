@@ -1,11 +1,13 @@
+using FFXIVClientStructs.FFXIV.Client.Game.Character;
+
 namespace FFXIVClientStructs.FFXIV.Client.Game.Group;
 
 // Client::Game::Group::GroupManager
 // group manager has two copies of the state - the normal one and a separate used when viewing recordings
 [GenerateInterop]
 [StructLayout(LayoutKind.Explicit, Size = 0xCB80)]
+[Inherits<CharacterManagerInterface>]
 public unsafe partial struct GroupManager {
-    // TODO: implement baseclass, size 0x18, shared with CharacterManager
     [FieldOffset(0x0020)] public Group MainGroup;
     [FieldOffset(0x65D0)] public Group ReplayGroup;
 
@@ -14,6 +16,9 @@ public unsafe partial struct GroupManager {
 
     [MemberFunction("E8 ?? ?? ?? ?? 0F B6 55 80")]
     public partial Group* GetGroup(bool replayGroup = false);
+
+    [MemberFunction("E8 ?? ?? ?? ?? 8D 57 DD")]
+    public partial Group* GetGroupWithCheck(bool replayGroup = false);
 
     [GenerateInterop]
     [StructLayout(LayoutKind.Explicit, Size = 0x65B0)]
@@ -31,7 +36,7 @@ public unsafe partial struct GroupManager {
         public unsafe bool IsAlliance => (AllianceFlags & 1) != 0;
         public unsafe bool IsSmallGroupAlliance => (AllianceFlags & 2) != 0; // alliance containing 6 groups of 4 members rather than 3x8
 
-        [MemberFunction("E8 ?? ?? ?? ?? F3 0F 10 05 ?? ?? ?? ?? 84 C0")]
+        [MemberFunction("E8 ?? ?? ?? ?? 84 C0 74 ?? B0 01 E9 ?? ?? ?? ?? E8")]
         public partial bool IsEntityIdInParty(uint entityId);
 
         [MemberFunction("33 C0 44 8B CA F6 81")]
@@ -40,7 +45,7 @@ public unsafe partial struct GroupManager {
         [MemberFunction("48 63 81 ?? ?? ?? ?? 85 C0 78 14")]
         public partial bool IsEntityIdPartyLeader(uint entityId);
 
-        [MemberFunction("E9 ?? ?? ?? ?? E8 ?? ?? ?? ?? 84 C0 74 19")]
+        [MemberFunction("E9 ?? ?? ?? ?? E8 ?? ?? ?? ?? 84 C0 74 19 48 8B CB")]
         public partial bool IsCharacterInPartyByName(byte* name);
 
         [MemberFunction("83 FA 14 72 03")]

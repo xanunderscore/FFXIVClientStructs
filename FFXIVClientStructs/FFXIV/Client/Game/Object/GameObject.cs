@@ -59,13 +59,16 @@ public unsafe partial struct GameObject {
     public partial bool GetIsTargetable();
 
     [VirtualFunction(6)]
-    public partial byte* GetName();
+    public partial CStringPointer GetName();
 
     [VirtualFunction(7)]
     public partial float GetRadius(bool adjustByTransformation = true);
 
     [VirtualFunction(8)]
     public partial float GetHeight();
+
+    [VirtualFunction(11)]
+    public partial byte GetSex();
 
     [VirtualFunction(12)]
     public partial void EnableDraw();
@@ -105,8 +108,17 @@ public unsafe partial struct GameObject {
     [VirtualFunction(58)]
     public partial bool IsNotMounted();
 
+    [VirtualFunction(59)]
+    public partial void Terminate();
+
+    [VirtualFunction(60)]
+    public partial GameObject* Dtor(byte freeFlags);
+
     [VirtualFunction(61)]
     public partial bool IsCharacter();
+
+    [VirtualFunction(68)]
+    public partial void OnInitialize();
 
     /// <summary>
     /// Determines whether a ray intersects with the game object, either by checking the model's geometry or the object's approximate center position.
@@ -121,7 +133,7 @@ public unsafe partial struct GameObject {
     [MemberFunction("E8 ?? ?? ?? ?? 0F 28 74 24 ?? 80 3D")]
     public partial void SetDrawOffset(float x, float y, float z);
 
-    [MemberFunction("E8 ?? ?? ?? ?? 83 FE 4F")]
+    [MemberFunction("E8 ?? ?? ?? ?? 83 FE 20")]
     public partial void SetRotation(float value);
 
     [MemberFunction("E8 ?? ?? ?? ?? 83 4B 70 01")]
@@ -132,6 +144,9 @@ public unsafe partial struct GameObject {
 
     [MemberFunction("E8 ?? ?? ?? ?? 0F 5A C7")]
     public partial Vector3* GetPosition();
+
+    [MemberFunction("E8 ?? ?? ?? ?? 45 33 F6 89 85")]
+    public partial uint GetObjStrId();
 }
 
 // if (EntityId == 0xE0000000)
