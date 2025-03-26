@@ -11,7 +11,7 @@ namespace FFXIVClientStructs.FFXIV.Client.Game.Character;
 [StructLayout(LayoutKind.Explicit, Size = 0x22E0)]
 [VirtualTable("48 8D 05 ?? ?? ?? ?? 48 89 07 48 8D 8F ?? ?? ?? ?? 48 8D 05 ?? ?? ?? ?? 48 89 87 ?? ?? ?? ?? E8 ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 33 ED 48 8D 05 ?? ?? ?? ??", 3)]
 public unsafe partial struct Character {
-    [FieldOffset(0x1F0)] public MoveContainer Move;
+    [FieldOffset(0x1E0)] public MoveContainer Move;
     [FieldOffset(0x610)] public EmoteController EmoteController;
     [FieldOffset(0x650)] public MountContainer Mount;
     [FieldOffset(0x6B8)] public CompanionContainer CompanionData;
