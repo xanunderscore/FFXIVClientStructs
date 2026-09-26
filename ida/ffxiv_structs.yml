@@ -1868,7 +1868,7 @@ enums:
     "Unk2": 2
     "Translate": 3
     "Teleport": 4
-    "Unk5": 5
+    "Revive": 5
     "Unk6": 6
     "Return": 7
     "Resurrection": 8
@@ -11468,6 +11468,16 @@ structs:
   - type: byte
     name: MagiaAether
     offset: 17
+  member_functions: []
+- type: Client::Game::InstanceContent::InstanceContentCrucible::InventorySlot
+  name: InventorySlot
+  namespace: Client.Game.InstanceContent
+  union: False
+  size: 12
+  fields:
+  - type: unsigned __int16
+    name: ItemId
+    offset: 4
   member_functions: []
 - type: Client::Game::InstanceContent::InstanceContentDeepDungeon::DeepDungeonChestInfo
   name: DeepDungeonChestInfo
@@ -45461,7 +45471,7 @@ structs:
     name: State
     offset: 0
   - type: float
-    name: Unk4
+    name: ElapsedTimeSinceLastWarp
     offset: 4
   - type: float
     name: Unk8
@@ -54044,6 +54054,31 @@ structs:
   - type: unsigned __int16
     name: Amount
     offset: 306
+  member_functions: []
+- type: Client::UI::Agent::AgentRetainer::SellListEntry
+  name: SellListEntry
+  namespace: Client.UI.Agent
+  union: False
+  size: 360
+  fields:
+  - type: unsigned int
+    name: ItemId
+    offset: 0
+  - type: Client::System::String::Utf8String
+    name: ItemName
+    offset: 8
+  - type: int
+    name: Quantity
+    offset: 112
+  - type: Client::System::String::Utf8String
+    name: TotalPriceText
+    offset: 120
+  - type: Client::System::String::Utf8String
+    name: UnitPriceText
+    offset: 224
+  - type: unsigned __int16
+    name: InventorySlot
+    offset: 328
   member_functions: []
 - type: Client::UI::Agent::AgentRetainerItemTransferData::DuplicateItemEntry
   name: DuplicateItemEntry
@@ -100277,134 +100312,6 @@ structs:
     - type: byte
       name: classJobId
   member_functions: []
-- type: Client::UI::Agent::AgentRetainer
-  name: AgentRetainer
-  namespace: Client.UI.Agent
-  union: False
-  size: 26832
-  fields:
-  - type: Client::UI::Agent::AgentInterface
-    name: AgentInterface
-    offset: 0
-    base: true
-  - type: Client::UI::Agent::AgentInventoryContext::InventoryContextEvent
-    name: InventoryContextEvent
-    offset: 40
-    base: true
-  virtual_functions:
-  - name: ReceiveEvent
-    offset: 0
-    return_type: Component::GUI::AtkValue*
-    parameters:
-    - type: Client::UI::Agent::AgentRetainer*
-      name: this
-    - type: Component::GUI::AtkValue*
-      name: returnValue
-    - type: Component::GUI::AtkValue*
-      name: values
-    - type: unsigned int
-      name: valueCount
-    - type: unsigned __int64
-      name: eventKind
-  - name: ReceiveEventWithResult
-    offset: 8
-    return_type: Component::GUI::AtkValue*
-    parameters:
-    - type: Client::UI::Agent::AgentRetainer*
-      name: this
-    - type: Component::GUI::AtkValue*
-      name: returnValue
-    - type: Component::GUI::AtkValue*
-      name: values
-    - type: unsigned int
-      name: valueCount
-    - type: unsigned __int64
-      name: eventKind
-  - name: dtor
-    offset: 16
-    return_type: Client::UI::Agent::AgentInterface*
-    parameters:
-    - type: Client::UI::Agent::AgentRetainer*
-      name: this
-    - type: byte
-      name: freeFlags
-  - name: Show
-    offset: 24
-    return_type: void
-    parameters:
-    - type: Client::UI::Agent::AgentRetainer*
-      name: this
-  - name: ShowFromLua
-    offset: 32
-    return_type: void
-    parameters:
-    - type: Client::UI::Agent::AgentRetainer*
-      name: this
-    - type: int
-      name: id
-    - type: int*
-      name: args
-    - type: __int64
-      name: argCount
-  - name: Hide
-    offset: 40
-    return_type: void
-    parameters:
-    - type: Client::UI::Agent::AgentRetainer*
-      name: this
-  - name: IsAgentActive
-    offset: 48
-    return_type: char
-    parameters:
-    - type: Client::UI::Agent::AgentRetainer*
-      name: this
-  - name: Update
-    offset: 56
-    return_type: void
-    parameters:
-    - type: Client::UI::Agent::AgentRetainer*
-      name: this
-    - type: unsigned int
-      name: frameCount
-  - name: IsActivatable
-    offset: 64
-    return_type: char
-    parameters:
-    - type: Client::UI::Agent::AgentRetainer*
-      name: this
-  - name: GetAddonId
-    offset: 72
-    return_type: unsigned int
-    parameters:
-    - type: Client::UI::Agent::AgentRetainer*
-      name: this
-  - name: OnGameEvent
-    offset: 80
-    return_type: void
-    parameters:
-    - type: Client::UI::Agent::AgentRetainer*
-      name: this
-    - type: Client::UI::Agent::AgentGameEvent
-      name: gameEvent
-  - name: OnLevelChange
-    offset: 88
-    return_type: void
-    parameters:
-    - type: Client::UI::Agent::AgentRetainer*
-      name: this
-    - type: byte
-      name: classJobId
-    - type: unsigned __int16
-      name: level
-  - name: OnClassJobChange
-    offset: 96
-    return_type: void
-    parameters:
-    - type: Client::UI::Agent::AgentRetainer*
-      name: this
-    - type: byte
-      name: classJobId
-  member_functions: []
 - type: Client::UI::Agent::AgentRetainerTask
   name: AgentRetainerTask
   namespace: Client.UI.Agent
@@ -120750,6 +120657,182 @@ structs:
       name: this
     - type: char
       name: arg0
+- type: Client::UI::Agent::AgentRetainer
+  name: AgentRetainer
+  namespace: Client.UI.Agent
+  union: False
+  size: 26832
+  fields:
+  - type: Client::UI::Agent::AgentInterface
+    name: AgentInterface
+    offset: 0
+    base: true
+  - type: Client::UI::Agent::AgentInventoryContext::InventoryContextEvent
+    name: InventoryContextEvent
+    offset: 40
+    base: true
+  - type: Client::Game::InventoryType
+    name: SellItemInventoryType
+    offset: 88
+  - type: int
+    name: SellItemInventorySlot
+    offset: 92
+  - type: int
+    name: SellItemTotalPrice
+    offset: 19316
+  - type: int
+    name: SellItemPriceLimit
+    offset: 19320
+  - type: int
+    name: SellItemUnitPrice
+    offset: 19324
+  - type: int
+    name: SellItemQuantity
+    offset: 19328
+  - type: int
+    name: ContextMenuIndex
+    offset: 19332
+  - type: int
+    name: SellListEntryCount
+    offset: 19336
+  - type: Client::UI::Agent::AgentRetainer::SellListEntry
+    name: SellListEntries
+    offset: 19344
+    size: 20
+    is_string: False
+  - type: unsigned int
+    name: RetainerSellListAddonId
+    offset: 26764
+  - type: unsigned int
+    name: RetainerSellAddonId
+    offset: 26768
+  - type: Client::Game::Event::ShopEventHandler*
+    name: ShopEventHandler
+    offset: 26800
+  virtual_functions:
+  - name: ReceiveEvent
+    offset: 0
+    return_type: Component::GUI::AtkValue*
+    parameters:
+    - type: Client::UI::Agent::AgentRetainer*
+      name: this
+    - type: Component::GUI::AtkValue*
+      name: returnValue
+    - type: Component::GUI::AtkValue*
+      name: values
+    - type: unsigned int
+      name: valueCount
+    - type: unsigned __int64
+      name: eventKind
+  - name: ReceiveEventWithResult
+    offset: 8
+    return_type: Component::GUI::AtkValue*
+    parameters:
+    - type: Client::UI::Agent::AgentRetainer*
+      name: this
+    - type: Component::GUI::AtkValue*
+      name: returnValue
+    - type: Component::GUI::AtkValue*
+      name: values
+    - type: unsigned int
+      name: valueCount
+    - type: unsigned __int64
+      name: eventKind
+  - name: dtor
+    offset: 16
+    return_type: Client::UI::Agent::AgentInterface*
+    parameters:
+    - type: Client::UI::Agent::AgentRetainer*
+      name: this
+    - type: byte
+      name: freeFlags
+  - name: Show
+    offset: 24
+    return_type: void
+    parameters:
+    - type: Client::UI::Agent::AgentRetainer*
+      name: this
+  - name: ShowFromLua
+    offset: 32
+    return_type: void
+    parameters:
+    - type: Client::UI::Agent::AgentRetainer*
+      name: this
+    - type: int
+      name: id
+    - type: int*
+      name: args
+    - type: __int64
+      name: argCount
+  - name: Hide
+    offset: 40
+    return_type: void
+    parameters:
+    - type: Client::UI::Agent::AgentRetainer*
+      name: this
+  - name: IsAgentActive
+    offset: 48
+    return_type: char
+    parameters:
+    - type: Client::UI::Agent::AgentRetainer*
+      name: this
+  - name: Update
+    offset: 56
+    return_type: void
+    parameters:
+    - type: Client::UI::Agent::AgentRetainer*
+      name: this
+    - type: unsigned int
+      name: frameCount
+  - name: IsActivatable
+    offset: 64
+    return_type: char
+    parameters:
+    - type: Client::UI::Agent::AgentRetainer*
+      name: this
+  - name: GetAddonId
+    offset: 72
+    return_type: unsigned int
+    parameters:
+    - type: Client::UI::Agent::AgentRetainer*
+      name: this
+  - name: OnGameEvent
+    offset: 80
+    return_type: void
+    parameters:
+    - type: Client::UI::Agent::AgentRetainer*
+      name: this
+    - type: Client::UI::Agent::AgentGameEvent
+      name: gameEvent
+  - name: OnLevelChange
+    offset: 88
+    return_type: void
+    parameters:
+    - type: Client::UI::Agent::AgentRetainer*
+      name: this
+    - type: byte
+      name: classJobId
+    - type: unsigned __int16
+      name: level
+  - name: OnClassJobChange
+    offset: 96
+    return_type: void
+    parameters:
+    - type: Client::UI::Agent::AgentRetainer*
+      name: this
+    - type: byte
+      name: classJobId
+  member_functions:
+  - signature: E8 ?? ?? ?? ?? EB ?? 48 83 BF ?? ?? ?? ?? ?? 74 ?? 8B CE
+    return_type: void
+    name: OpenRetainerSell
+    parameters:
+    - type: Client::UI::Agent::AgentRetainer*
+      name: this
+    - type: Client::Game::InventoryType
+      name: inventoryType
+    - type: unsigned __int16
+      name: inventorySlot
 - type: Client::UI::Agent::AgentTrade
   name: AgentTrade
   namespace: Client.UI.Agent
@@ -284633,6 +284716,389 @@ structs:
     - type: Client::Game::Event::GuildleveAssignmentEventHandler*
       name: this
   member_functions: []
+- type: Client::Game::InstanceContent::InstanceContentCrucible
+  name: InstanceContentCrucible
+  namespace: Client.Game.InstanceContent
+  union: False
+  size: 9632
+  fields:
+  - type: Client::Game::InstanceContent::InstanceContentDirector
+    name: InstanceContentDirector
+    offset: 0
+    base: true
+  - type: Client::Game::InstanceContent::InstanceContentCrucible::InventorySlot
+    name: Inventory
+    offset: 9088
+    size: 10
+    is_string: False
+  virtual_functions:
+  - name: dtor
+    offset: 0
+    return_type: Client::Game::Event::EventHandler*
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: byte
+      name: freeFlags
+  - name: ResetState
+    offset: 64
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: Client::Game::Object::GameObject*
+      name: sceneGameObject
+  - name: ProcessEnterTerritory
+    offset: 160
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: unsigned __int16
+      name: territoryTypeId
+  - name: ProcessUIEvent
+    offset: 200
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: Client::Game::Event::UIEventType
+      name: type
+  - name: EnterEvent
+    offset: 224
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: Client::Game::Object::GameObject*
+      name: sceneGameObject
+    - type: byte
+      name: eventState
+  - name: ProcessYield
+    offset: 320
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: __int16
+      name: scene
+    - type: byte
+      name: yieldId
+    - type: int*
+      name: intParams
+    - type: byte
+      name: intParamCount
+  - name: ProcessEventSceneTask
+    offset: 416
+    return_type: char
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: unsigned int
+      name: taskId
+  - name: EndEvent
+    offset: 464
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: char
+      name: a2
+    - type: unsigned int
+      name: a3
+    - type: unsigned int
+      name: exitReason
+  - name: ProcessFormatStringCallback
+    offset: 472
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: char
+      name: success
+    - type: Client::System::String::Utf8String*
+      name: str
+    - type: unsigned __int64
+      name: callbackParam
+  - name: ProcessActionTimelineCallback
+    offset: 480
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: Client::Game::Character::Character*
+      name: character
+    - type: unsigned __int16
+      name: actionTimelineId
+    - type: unsigned __int64
+      name: callbackParam
+  - name: ProcessDirectorUpdate
+    offset: 488
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: unsigned int*
+      name: parameters
+  - name: ProcessEventSpecificDirectorUpdate
+    offset: 496
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: unsigned int
+      name: category
+    - type: unsigned int
+      name: arg1
+    - type: unsigned int
+      name: arg2
+    - type: unsigned int
+      name: arg3
+    - type: unsigned int
+      name: arg4
+  - name: CancelByPlayerMovement
+    offset: 560
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: char
+      name: a2
+    - type: char
+      name: a3
+  - name: HandleStartOrEndCommand
+    offset: 712
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: unsigned int
+      name: command
+  - name: HandleMenuResult
+    offset: 720
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: int
+      name: selectedOption
+    - type: int
+      name: menuType
+  - name: CancelInteraction
+    offset: 1272
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+  - name: GetTitle
+    offset: 1640
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: Client::System::String::Utf8String*
+      name: outTitle
+  - name: GetEventId
+    offset: 1656
+    return_type: Client::Game::Event::EventId
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+  - name: GetNameplateIconForObject
+    offset: 1672
+    return_type: unsigned int
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: Client::Game::Object::GameObject*
+      name: gameObject
+  - name: IsActive
+    offset: 1704
+    return_type: char
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: Client::Game::Object::GameObject*
+      name: gameObject
+  - name: UpdateTargetableStatus
+    offset: 1736
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+  - name: ShouldDismissOrnament
+    offset: 2000
+    return_type: char
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+  - name: UpdateSharedTimelineState
+    offset: 2024
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: Client::Game::Object::GameObject*
+      name: gameObject
+    - type: unsigned __int16
+      name: oldSharedTimelineState
+    - type: unsigned __int16
+      name: newSharedTimelineState
+    - type: unsigned __int64
+      name: timelineIndices
+  - name: UpdateTimelinesByBitmask
+    offset: 2032
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: Client::Game::Object::GameObject*
+      name: gameObject
+    - type: unsigned int
+      name: sharedTimelineState
+    - type: unsigned int
+      name: bitmask
+    - type: unsigned __int64
+      name: unused
+  - name: GetDescription
+    offset: 2064
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: Client::System::String::Utf8String*
+      name: outDescription
+  - name: GetReliefText
+    offset: 2072
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: Client::System::String::Utf8String*
+      name: outReliefText
+  - name: GetTimeRemaining
+    offset: 2080
+    return_type: int
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: int
+      name: currentTimestamp
+  - name: HasTimer
+    offset: 2088
+    return_type: char
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+  - name: GetEventItemId
+    offset: 2104
+    return_type: unsigned int
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+  - name: GetDirectorTodos
+    offset: 2128
+    return_type: StdVector<Client::Game::Event::DirectorTodo>*
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+  - name: GetMassivePcContentTodos
+    offset: 2136
+    return_type: StdVector<Client::Game::Event::MassivePcContentTodo>*
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: int
+      name: setIndex
+  - name: GetRecommendedLevel
+    offset: 2160
+    return_type: int
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+  - name: PopulateMapMarkers
+    offset: 2224
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: unsigned __int16
+      name: territoryTypeId
+    - type: StdVector<Client::Game::UI::MapMarkerData>*
+      name: markerVector
+  - name: GetCurrentLevel
+    offset: 2424
+    return_type: unsigned int
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+  - name: GetMaxLevel
+    offset: 2432
+    return_type: unsigned int
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+  - name: ProcessDirectorSpecificDirectorUpdate
+    offset: 2600
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: unsigned int
+      name: category
+    - type: unsigned int*
+      name: parameters
+  - name: GetContentTimeMax
+    offset: 2632
+    return_type: unsigned int
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+  - name: GetInstanceContentText
+    offset: 2832
+    return_type: Client::System::String::Utf8String*
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: unsigned int
+      name: rowId
+  - name: DispatchContentSpecificDirectorUpdate
+    offset: 3040
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: unsigned int
+      name: category
+    - type: unsigned int*
+      name: parameters
+  - name: ProcessContentSpecificDirectorUpdate
+    offset: 3048
+    return_type: void
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: unsigned int
+      name: category
+    - type: unsigned int
+      name: arg1
+    - type: unsigned int
+      name: arg2
+    - type: unsigned int
+      name: arg3
+    - type: unsigned int
+      name: arg4
+  member_functions:
+  - signature: E8 ?? ?? ?? ?? 83 7F 44 00 48 8D 57 44
+    return_type: void
+    name: UseItem
+    parameters:
+    - type: Client::Game::InstanceContent::InstanceContentCrucible*
+      name: this
+    - type: unsigned int
+      name: slot
+    - type: int
+      name: unk3
 - type: Client::Game::InstanceContent::PublicContentEureka
   name: PublicContentEureka
   namespace: Client.Game.InstanceContent
